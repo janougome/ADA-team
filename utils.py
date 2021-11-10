@@ -4,7 +4,8 @@ import pandas as pd
 
 def quotes_by_gender(quotes, time = None, major_only = False, others_grouped = False):
     """
-    Allows to computed the frequency of quotes said by each gender in a given dataframe of quotes.
+    Allows to computed the frequency of quotes said by each gender in a given dataframe of quotes,
+    as well as the total number of Occurrences associated with each gender. 
 
 
     Parameters
@@ -23,7 +24,8 @@ def quotes_by_gender(quotes, time = None, major_only = False, others_grouped = F
     '''
     root
      |-- gender: string 
-     |-- count: string 
+     |-- count: float
+     |-- Occurrences: float
      |-- time: string, float or int
     """
     #Group by gender
@@ -33,9 +35,18 @@ def quotes_by_gender(quotes, time = None, major_only = False, others_grouped = F
     summary = gender_grouped['gender'].count() \
             .reset_index(name='count') \
             .sort_values(['count'], ascending=False)
-    
     #Normalization
     summary['count'] = summary['count']/len(quotes)
+    
+    #Take the number of occurences by gender
+    occurrences = gender_grouped['numOccurrences'].sum() \
+            .reset_index(name='Occurrences') \
+            .sort_values(['Occurrences'], ascending=False)
+    #Normalization
+    occurrences['Occurrences'] = occurrences['Occurrences']/quotes['numOccurrences'].sum()
+    
+    summary = summary.merge(occurrences)
+
 
     if major_only:
         if time is not None:
