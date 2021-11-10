@@ -1,6 +1,37 @@
 import numpy as np
 import pandas as pd
 
+def unique_speaker_per_gender(quotes, time = None):
+        """
+    Allows to computed the frequency of quotes said by each gender in a given dataframe of quotes,
+    as well as the total number of Occurrences associated with each gender. 
+
+
+    Parameters
+    ----------
+    quotes: dataframe of quotes
+    time: can be a string, a float or an int
+        Defines the year or period associated with the dataframe of quotes
+        into the same category "Others".
+        
+    Returns
+    -------
+    summary: a dataframe of the following shape
+    '''
+    root
+     |-- gender: string 
+     |-- unique_speaker: nb of unique speakers of this gender / nb total unique speakers
+     |-- time: string, float or int
+    """
+        speaker_grouped = quotes.groupby(['qids', 'gender'])
+        speakers = Counter([x[1] for x in speaker_grouped['numOccurrences'].sum().index])
+        speaker_per_gender = {k: v/speaker_grouped.ngroups for k, v in speakers.items()}
+        speaker_items = speaker_per_gender.items()
+        speaker_list = list(speaker_items)
+        df_speaker = pd.DataFrame(speaker_list, columns = ['gender', 'count'])
+        df_speaker['time'] = time
+        return df_speaker
+
 
 def quotes_by_gender(quotes, time = None, major_only = False, others_grouped = False):
     """
@@ -69,3 +100,5 @@ def quotes_by_gender(quotes, time = None, major_only = False, others_grouped = F
                 return summary
             else:
                 return summary
+
+
