@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from collections import Counter
 
 def unique_speaker_per_gender(quotes, time = None):
         """
