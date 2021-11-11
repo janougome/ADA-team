@@ -103,3 +103,42 @@ def quotes_by_gender(quotes, time = None, major_only = False, others_grouped = F
                 return summary
 
 
+def get_champlex(df,year, chp_lex_woman, chp_lex_man, chp_lex_wife, chp_lex_husband):
+        """
+        Its goal is to calculate for each of the four lexical fields the number of times
+        the lexical field appears in the quotations (taking into account the number of occurrences for each citation).
+        It returns a dataframe with the number of quotations related to each lexical field, the sum of the number of occurrences and the corresponding year.
+
+        Parameters
+        ----------
+        df: a dataframe
+        year: string or int
+        chp_lex_woman: list of string
+        chp_lex_man: list of string
+        chp_lex_wife: list of string
+        chp_lex_husband: list of string
+
+        Returns
+        --------
+        df_N:dataframe with the number of quotations related to each lexical field, the sum of the number of occurrences and the corresponding year
+        """
+
+        df_women = df.loc[df['year']== year][df.loc[df['year']== year]['quotation'].str.contains('|'.join(chp_lex_woman))]
+    
+        df_wife = df.loc[df['year']== year][df.loc[df['year']== year]['quotation'].str.contains('|'.join(chp_lex_wife))]
+    
+        df_men = df.loc[df['year']== year][df.loc[df['year']== year]['quotation'].str.contains('|'.join(chp_lex_man))]
+    
+        df_husband = df.loc[df['year']== year][df.loc[df['year']== year]['quotation'].str.contains('|'.join(chp_lex_husband))]
+    
+        ar = np.array([[df_women.shape[0]*100/df.loc[df['year']== year].shape[0],df_women.numOccurrences.sum()*100/df.loc[df['year']== year].numOccurrences.sum(),year],
+                   [df_wife.shape[0]*100/df.loc[df['year']== year].shape[0],df_wife.numOccurrences.sum()*100/df.loc[df['year']== year].numOccurrences.sum(),year],
+                       [df_men.shape[0]*100/df.loc[df['year']== year].shape[0], df_men.numOccurrences.sum()*100/df.loc[df['year']== year].numOccurrences.sum(),year],
+                       [df_husband.shape[0]*100/df.loc[df['year']== year].shape[0],df_husband.numOccurrences.sum()*100/df.loc[df['year']== year].numOccurrences.sum(),year]])
+    
+        df_N = pd.DataFrame(ar, index = ['woman', 'wife', 'man', 'husband'], 
+                        columns = ['% of total quotations','% of total occurences','year'])
+
+        return df_N
+
+
