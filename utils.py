@@ -1,6 +1,145 @@
 import numpy as np
 import pandas as pd
 from collections import Counter
+from tabulate import tabulate
+from scipy import stats
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+def visualize_by_occupation(df, occupation, column):
+
+    fig, axs = plt.subplots(nrows=2, ncols=2,constrained_layout=True, figsize=(10, 8))
+
+    sns.histplot(ax = axs[0, 0], 
+                 data = df[(df[occupation] == 0) & (df['female'] == 0) & (df['label'] == 0)][column], 
+                 bins = 50,
+                 log_scale = True,
+                 color = 'lightgreen', 
+                 alpha = 0.7, 
+                 legend = True,
+                 stat = 'count')
+    sns.histplot(ax = axs[0, 0],
+                 data = df[(df[occupation] == 0) & (df['female'] == 1) & (df['label'] == 0)][column], 
+                 bins = 50,
+                 log_scale = True,
+                 color = 'lightcoral', 
+                 alpha = 0.7, 
+                 legend = True, 
+                 stat = 'count')
+    axs[0, 0].set_title(f'Before #MeToo - no {occupation}')
+    axs[0, 0].legend(labels=['Male','Female']);
+    axs[0, 0].set(yscale = 'log')
+
+
+    sns.histplot(ax = axs[0, 1],
+                 data = df[(df[occupation] == 0) & (df['female'] == 0) & (df['label'] == 1)][column], 
+                 bins = 50,
+                 log_scale = True,
+                 color = 'lightgreen', 
+                 alpha = 0.7, 
+                 legend = True, 
+                 stat = 'count')
+    sns.histplot(ax = axs[0, 1],
+                 data = df[(df[occupation] == 0) & (df['female'] == 1) & (df['label'] == 1)][column], 
+                 bins = 50,
+                 log_scale = True,
+                 color = 'lightcoral', 
+                 alpha = 0.7, 
+                 legend = True, 
+                 stat = 'count')
+    axs[0, 1].set_title(f'Before #MeToo - no {occupation}')
+    axs[0, 1].legend(labels=['Male','Female']);
+    axs[0, 1].set(yscale = 'log')
+
+
+    sns.histplot(ax = axs[1, 0], 
+                 data = df[(df[occupation] == 1) & (df['female'] == 0) & (df['label'] == 0)][column], 
+                 bins = 50,
+                 log_scale = True,
+                 color = 'lightgreen', 
+                 alpha = 0.7, 
+                 legend = True,
+                 stat = 'count')
+    sns.histplot(ax = axs[1, 0],
+                 data = df[(df[occupation] == 1) & (df['female'] == 1) & (df['label'] == 0)][column], 
+                 bins = 50,
+                 log_scale = True,
+                 color = 'lightcoral', 
+                 alpha = 0.7, 
+                 legend = True, 
+                 stat = 'count')
+    axs[1, 0].set_title(f'Before #MeToo - {occupation}')
+    axs[1, 0].legend(labels=['Male','Female']);
+    axs[1, 0].set(yscale = 'log')
+
+
+    sns.histplot(ax = axs[1, 1],
+                 data = df[(df[occupation] == 1) & (df['female'] == 0) & (df['label'] == 1)][column], 
+                 bins = 50,
+                 log_scale = True,
+                 color = 'lightgreen', 
+                 alpha = 0.7, 
+                 legend = True, 
+                 stat = 'count')
+    sns.histplot(ax = axs[1, 1],
+                 data = df[(df[occupation] == 1) & (df['female'] == 1) & (df['label'] == 1)][column], 
+                 bins = 50,
+                 log_scale = True,
+                 color = 'lightcoral', 
+                 alpha = 0.7, 
+                 legend = True, 
+                 stat = 'count')
+    axs[1, 1].set_title(f'After #MeToo - {occupation}')
+    axs[1, 1].legend(labels=['Male','Female']);
+    axs[1,1].set(yscale = 'log')
+
+    plt.show()
+
+        
+def gmean_occupations(df, occupation, column):
+        """Calculate the geometric mean of each of the 8 groups for a given occupation.
+        Print the results in tables.
+        
+        The 8 groups are:
+        -female = 0, occupation = 0, label = 0
+        -female = 0, occupation = 0, label = 1
+        -female = 0, occupation = 1, label = 0
+        -female = 0, occupation = 1, label = 1,
+        -female = 1, occupation = 0, label = 0
+        -female = 1, occupation = 0, label = 1,
+        -female = 1, occuaption = 1, label = 0,
+        -female = 1, occupation = 1, label = 1
+
+        Params:
+        --------
+        df: the dataframe on which the means have to be computed
+        occupation: the given occupation that we stratify
+        column: column of the dataframe we want to calculate the geometric mean
+
+        Returns
+        -------
+        print 2 tables, one for men and one for women."""
+
+        table_men = [
+                [f'Non {occupation}', stats.gmean(df[df['label'] == 0 & (df['female'] == 0) & (df[occupation] == 0)][column]),
+                 stats.gmean(df[df['label'] == 1 & (df['female'] == 0) & (df[occupation] == 0)][column])],
+                [occupation, stats.gmean(df[df['label'] == 0 & (df['female'] == 0) & (df[occupation] == 1)][column]),
+                 stats.gmean(df[df['label'] == 1 & (df['female'] == 0) & (df[occupation] == 1)][column])]
+                ]
+
+        table_women = [
+                [f'Non {occupation}', stats.gmean(df[df['label'] == 0 & (df['female'] == 1) & (df[occupation] == 0)][column]),
+                 stats.gmean(df[df['label'] == 1 & (df['female'] == 1) & (df[occupation] == 0)][column])],
+                [occupation, stats.gmean(df[df['label'] == 0 & (df['female'] == 1) & (df[occupation] == 1)][column]),
+                 stats.gmean(df[df['label'] == 1 & (df['female'] == 1) & (df[occupation] == 1)][column])]
+                ]
+        
+        print('GEOMETRIC MEANS')
+        print('Male speakers')
+        print(tabulate(table_men, headers = ['Before #MeToo','After #MeToo']))
+        print('\n')
+        print('Female speakers')
+        print(tabulate(table_women, headers = ['Before #MeToo','After #MeToo']))
 
 def unique_speaker_per_gender(quotes, time = None):
         """
