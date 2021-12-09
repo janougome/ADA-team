@@ -47,7 +47,7 @@ def visualize_by_occupation(df, occupation, column):
                  alpha = 0.7, 
                  legend = True, 
                  stat = 'count')
-    axs[0, 1].set_title(f'Before #MeToo - no {occupation}')
+    axs[0, 1].set_title(f'After #MeToo - no {occupation}')
     axs[0, 1].legend(labels=['Male','Female']);
     axs[0, 1].set(yscale = 'log')
 
