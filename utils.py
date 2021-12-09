@@ -97,49 +97,69 @@ def visualize_by_occupation(df, occupation, column):
 
         
 def gmean_occupations(df, occupation, column):
-        """Calculate the geometric mean of each of the 8 groups for a given occupation.
-        Print the results in tables.
-        
-        The 8 groups are:
-        -female = 0, occupation = 0, label = 0
-        -female = 0, occupation = 0, label = 1
-        -female = 0, occupation = 1, label = 0
-        -female = 0, occupation = 1, label = 1,
-        -female = 1, occupation = 0, label = 0
-        -female = 1, occupation = 0, label = 1,
-        -female = 1, occuaption = 1, label = 0,
-        -female = 1, occupation = 1, label = 1
+    """Calculate the geometric mean of each of the 8 groups for a given occupation.
+    Print the results in tables.
 
-        Params:
-        --------
-        df: the dataframe on which the means have to be computed
-        occupation: the given occupation that we stratify
-        column: column of the dataframe we want to calculate the geometric mean
+    The 8 groups are:
+    -female = 0, occupation = 0, label = 0
+    -female = 0, occupation = 0, label = 1
+    -female = 0, occupation = 1, label = 0
+    -female = 0, occupation = 1, label = 1,
+    -female = 1, occupation = 0, label = 0
+    -female = 1, occupation = 0, label = 1,
+    -female = 1, occuaption = 1, label = 0,
+    -female = 1, occupation = 1, label = 1
 
-        Returns
-        -------
-        print 2 tables, one for men and one for women."""
+    Parameters
+    ----------
+    df: the dataframe on which the means have to be computed
+    occupation: the given occupation that we stratify
+    column: column of the dataframe we want to calculate the geometric mean
 
-        table_men = [
-                [f'Non {occupation}', stats.gmean(df[df['label'] == 0 & (df['female'] == 0) & (df[occupation] == 0)][column]),
-                 stats.gmean(df[df['label'] == 1 & (df['female'] == 0) & (df[occupation] == 0)][column])],
-                [occupation, stats.gmean(df[df['label'] == 0 & (df['female'] == 0) & (df[occupation] == 1)][column]),
-                 stats.gmean(df[df['label'] == 1 & (df['female'] == 0) & (df[occupation] == 1)][column])]
-                ]
+    Returns
+    -------
+    print 2 tables, one for men and one for women.
 
-        table_women = [
-                [f'Non {occupation}', stats.gmean(df[df['label'] == 0 & (df['female'] == 1) & (df[occupation] == 0)][column]),
-                 stats.gmean(df[df['label'] == 1 & (df['female'] == 1) & (df[occupation] == 0)][column])],
-                [occupation, stats.gmean(df[df['label'] == 0 & (df['female'] == 1) & (df[occupation] == 1)][column]),
-                 stats.gmean(df[df['label'] == 1 & (df['female'] == 1) & (df[occupation] == 1)][column])]
-                ]
-        
-        print('GEOMETRIC MEANS')
-        print('Male speakers')
-        print(tabulate(table_men, headers = ['Before #MeToo','After #MeToo']))
-        print('\n')
-        print('Female speakers')
-        print(tabulate(table_women, headers = ['Before #MeToo','After #MeToo']))
+    """
+
+
+    table_men = [[f'Non {occupation}',
+                  stats.mstats.gmean(df[(df['label'] == 0) &
+                                        (df['female'] == 0) &
+                                        (df[occupation] == 0)][column].values),
+                  stats.mstats.gmean(df[(df['label'] == 1) &
+                              (df['female'] == 0) &
+                              (df[occupation] == 0)][column].values)],
+                 [occupation,
+                  stats.mstats.gmean(df[(df['label'] == 0) &
+                                        (df['female'] == 0) &
+                                        (df[occupation] == 1)][column].values),
+                  stats.mstats.gmean(df[(df['label'] == 1) &
+                                        (df['female'] == 0) &
+                                        (df[occupation] == 1)][column].values)]]
+
+    table_women = [[f'Non {occupation}',
+                  stats.mstats.gmean(df[(df['label'] == 0) &
+                                        (df['female'] == 1) &
+                                        (df[occupation] == 0)][column].values),
+                  stats.mstats.gmean(df[(df['label'] == 1) &
+                                        (df['female'] == 1) &
+                                        (df[occupation] == 0)][column].values)],
+                 [occupation,
+                  stats.mstats.gmean(df[(df['label'] == 0) &
+                                        (df['female'] == 1) &
+                                        (df[occupation] == 1)][column].values),
+                  stats.mstats.gmean(df[(df['label'] == 1) &
+                                        (df['female'] == 1) &
+                                        (df[occupation] == 1)][column].values)]
+                 ]
+
+    print('GEOMETRIC MEANS')
+    print('Male speakers')
+    print(tabulate(table_men, headers = ['Before #MeToo','After #MeToo']))
+    print('\n')
+    print('Female speakers')
+    print(tabulate(table_women, headers = ['Before #MeToo','After #MeToo']))
 
 def unique_speaker_per_gender(quotes, time = None):
         """
