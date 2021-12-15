@@ -5,10 +5,7 @@
 2. [Research Questions](#research-questions)
 3. [Proposed Additional Datasets](#proposed-additional-datasets)
 4. [Methods](#methods)
-  1. [Preprocessing](#Preprocessing)
-  2. [Data exploration](#Data-exploration)
-  3. [Observational study](#Observational-study)
-6. [Contributions](#Contributions)
+5. [Contributions](#Contributions)
 
 ## Abstract
 In October 2017, the exposure of sexual harassment allegations against famed film producer Harvey Weinstein led to the re-emergence of the #MeToo movement. The goal of this social movement was to visibly demonstrate the magnitude of the sexual assault problem through widespread media coverage of victim’s testimony. In this project, we are provided with the Quotebank dataset, an open corpus of 178 million quotations attributed to the speakers who uttered them, extracted from 162 million English news articles published between 2008 and 2020. Our goal is to exploit this dataset (2015 to 2020) to analyze if women are more represented in newspapers after the #MeToo movement. We would like to analyze whether the liberation of women's voices regarding sexual harassment has led to an increased representation of their opinions and statements in general in newspapers.
