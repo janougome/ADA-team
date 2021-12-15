@@ -5,9 +5,9 @@
 2. [Research Questions](#research-questions)
 3. [Proposed Additional Datasets](#proposed-additional-datasets)
 4. [Methods](#methods)
-  A. [Preprocessing](#Preprocessing)
-  B. [Data exploration](#Data-exploration)
-  C. [Observational study](#Observational-study)
+  1. [Preprocessing](#Preprocessing)
+  2. [Data exploration](#Data-exploration)
+  3. [Observational study](#Observational-study)
 6. [Contributions](#Contributions)
 
 ## Abstract
